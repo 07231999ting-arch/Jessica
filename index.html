@@ -1,0 +1,1202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src 'self' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src 'self' blob:; connect-src 'self' blob: data:; manifest-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="theme-color" content="#339cff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="岗位面试">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>岗位胜任力模型面试系统</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0;min-height:100%}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;max-width:736px;height:calc(100vh - 2rem);margin:0 auto;border:0}.install-button{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:10;display:none;border:0;border-radius:999px;padding:11px 16px;background:#339cff;color:#fff;font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:0 8px 24px rgb(0 0 0 / 20%);cursor:pointer}.install-button.visible{display:block}@media(display-mode:standalone){body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}iframe{max-width:none;height:calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}}@media(max-width:767px){body{padding:0}iframe{max-width:none;height:100vh}}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="岗位面试系统原型" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;岗位面试系统原型&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(--background) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: light-dark(rgb(255 255 255), rgb(24 24 24));
+  --foreground: light-dark(rgb(26 28 31), rgb(255 255 255));
+  --card: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --card-foreground: var(--foreground);
+  --popover: light-dark(rgb(255 255 255), rgb(45 45 45));
+  --popover-foreground: var(--foreground);
+  --primary: light-dark(rgb(51 156 255), rgb(131 195 255));
+  --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
+  --secondary: light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%));
+  --secondary-foreground: var(--foreground);
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: light-dark(
+    rgb(26 28 31 / 49.4%),
+    rgb(255 255 255 / 49.8%)
+  );
+  --accent: light-dark(rgb(229 242 255), rgb(13 39 63));
+  --accent-foreground: var(--primary);
+  --destructive: light-dark(rgb(226 85 7), rgb(255 133 73));
+  --border: light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%));
+  --input: light-dark(
+    rgb(26 28 31 / 11.8%),
+    color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+  );
+  --ring: light-dark(rgb(51 156 255), rgb(131 195 255 / 76%));
+  --font-size-base: 14px;
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: 12.5px;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+  --color-background-primary: var(--background);
+  --color-text-primary: var(--foreground);
+  --color-border-secondary: var(--border);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--viz-font-weight-medium);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed=&quot;true&quot;],
+    [aria-selected=&quot;true&quot;],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;interview-model-prototype&quot; class=&quot;prototype&quot;&gt;
+  &lt;style&gt;
+    #interview-model-prototype { color: var(--foreground); font-family: inherit; }
+    #interview-model-prototype * { box-sizing: border-box; }
+    #interview-model-prototype .shell { display: grid; gap: 16px; }
+    #interview-model-prototype .topline { display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
+    #interview-model-prototype .eyebrow { color:var(--muted-foreground); font-size:.85em; }
+    #interview-model-prototype .steps { display:flex; flex-wrap:wrap; gap:8px; }
+    #interview-model-prototype .step { border:1px solid var(--border); background:transparent; color:var(--foreground); padding:8px 11px; border-radius:7px; cursor:pointer; }
+    #interview-model-prototype .step.active { background:var(--primary); color:var(--primary-foreground); border-color:var(--primary); }
+    #interview-model-prototype .pane { display:none; gap:16px; }
+    #interview-model-prototype .pane.active { display:grid; }
+    #interview-model-prototype .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    #interview-model-prototype .grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    #interview-model-prototype .stack { display:grid; gap:10px; }
+    #interview-model-prototype .card { border:1px solid var(--border); background:var(--card); color:var(--card-foreground); border-radius:10px; padding:16px; }
+    #interview-model-prototype .card h2, #interview-model-prototype .card h3 { margin:0 0 8px; font-size:1em; font-weight:500; }
+    #interview-model-prototype .label { display:grid; gap:5px; font-size:.9em; }
+    #interview-model-prototype input, #interview-model-prototype select, #interview-model-prototype textarea { width:100%; color:var(--foreground); background:var(--background); border:1px solid var(--input); border-radius:6px; padding:8px; font:inherit; }
+    #interview-model-prototype textarea { min-height:78px; resize:vertical; }
+    #interview-model-prototype .actions { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    #interview-model-prototype button { border:1px solid var(--border); color:var(--foreground); background:transparent; padding:8px 11px; border-radius:7px; cursor:pointer; font:inherit; }
+    #interview-model-prototype button.primary { background:var(--primary); color:var(--primary-foreground); border-color:var(--primary); }
+    #interview-model-prototype button:focus-visible, #interview-model-prototype input:focus-visible, #interview-model-prototype textarea:focus-visible, #interview-model-prototype select:focus-visible { outline:2px solid var(--ring); outline-offset:2px; }
+    #interview-model-prototype .note { color:var(--muted-foreground); margin:0; font-size:.9em; }
+    #interview-model-prototype .status { padding:9px 11px; background:var(--accent); color:var(--accent-foreground); border-radius:7px; margin:0; }
+    #interview-model-prototype .muted { color:var(--muted-foreground); }
+    #interview-model-prototype .tag { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:3px 8px; font-size:.8em; margin:2px 4px 2px 0; }
+    #interview-model-prototype .capability { display:grid; grid-template-columns:1fr 82px 90px; gap:10px; align-items:center; padding:10px 0; border-top:1px solid var(--border); }
+    #interview-model-prototype .capability:first-of-type { border-top:0; }
+    #interview-model-prototype .question { padding:12px 0; border-top:1px solid var(--border); }
+    #interview-model-prototype .question:first-of-type { border-top:0; }
+    #interview-model-prototype .question p { margin:7px 0; }
+    #interview-model-prototype .decision { border-left:3px solid var(--primary); padding-left:12px; }
+    #interview-model-prototype .score { font-size:1.65em; font-weight:500; margin:4px 0; }
+    #interview-model-prototype .hidden { display:none!important; }
+    @media (max-width:620px) { #interview-model-prototype .grid, #interview-model-prototype .grid.three { grid-template-columns:1fr; } #interview-model-prototype .capability { grid-template-columns:1fr 75px 82px; } }
+  &lt;/style&gt;
+
+  &lt;div class=&quot;shell&quot;&gt;
+    &lt;div class=&quot;topline&quot;&gt;
+      &lt;div&gt;
+        &lt;div class=&quot;eyebrow&quot;&gt;岗位胜任力模型面试系统 · 原型&lt;/div&gt;
+        &lt;strong id=&quot;roleTitle&quot;&gt;亚马逊总监&lt;/strong&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;steps&quot; aria-label=&quot;原型功能导航&quot;&gt;
+        &lt;button class=&quot;step active&quot; data-pane=&quot;brief&quot; type=&quot;button&quot;&gt;1 岗位 Brief&lt;/button&gt;
+        &lt;button class=&quot;step&quot; data-pane=&quot;model&quot; type=&quot;button&quot;&gt;2 胜任力模型&lt;/button&gt;
+        &lt;button class=&quot;step&quot; data-pane=&quot;questions&quot; type=&quot;button&quot;&gt;3 面试题库&lt;/button&gt;
+        &lt;button class=&quot;step&quot; data-pane=&quot;evaluation&quot; type=&quot;button&quot;&gt;4 面试评价&lt;/button&gt;
+        &lt;button class=&quot;step&quot; data-pane=&quot;decision&quot; type=&quot;button&quot;&gt;5 决策汇总&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;section class=&quot;pane active&quot; id=&quot;brief&quot; aria-label=&quot;岗位 Brief&quot;&gt;
+      &lt;div class=&quot;grid&quot;&gt;
+        &lt;div class=&quot;card stack&quot;&gt;
+          &lt;h2&gt;创建岗位&lt;/h2&gt;
+          &lt;label class=&quot;label&quot;&gt;职位名称&lt;input id=&quot;jobName&quot; value=&quot;亚马逊总监&quot;&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;行业 / 业务模式&lt;input id=&quot;industry&quot; value=&quot;跨境服装 B2C · 自有品牌转型&quot;&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;核心职责&lt;textarea id=&quot;responsibility&quot;&gt;对美国为主、兼有欧洲市场的亚马逊业务经营负责；拉通库存、广告与品牌资源，实现营收、利润、增长和组织能力建设。&lt;/textarea&gt;&lt;/label&gt;
+          &lt;div class=&quot;actions&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;generate&quot; type=&quot;button&quot;&gt;生成岗位方案&lt;/button&gt;&lt;button id=&quot;loadSupply&quot; type=&quot;button&quot;&gt;载入供应链总监示例&lt;/button&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;card stack&quot;&gt;
+          &lt;h2&gt;补充企业 Brief（可选）&lt;/h2&gt;
+          &lt;label class=&quot;label&quot;&gt;公司阶段 / 规模&lt;input id=&quot;company&quot; value=&quot;约 10 亿 GMV，从铺货向品牌化转型&quot;&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;汇报对象与团队&lt;input id=&quot;team&quot; value=&quot;向老板汇报，团队约 20 人&quot;&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;12–24 月关键成果&lt;textarea id=&quot;goals&quot;&gt;营收增长、利润改善、库存效率提升；建立可复制的团队与中台机制。&lt;/textarea&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;硬性背景或红线&lt;input id=&quot;constraints&quot; value=&quot;完整 P&amp;L 经验；重大业绩真实性或诚信问题为红线&quot;&gt;&lt;/label&gt;
+          &lt;p class=&quot;note&quot;&gt;可先生成通用初稿，再补充企业信息后仅重生成某个模块。人工编辑内容可锁定保留。&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;status&quot; id=&quot;generateStatus&quot;&gt;当前为基于通用行业知识的初稿，可由 HRVP 校准后保存。&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;pane&quot; id=&quot;model&quot; aria-label=&quot;胜任力模型&quot;&gt;
+      &lt;div class=&quot;topline&quot;&gt;&lt;div&gt;&lt;strong&gt;岗位胜任力模型&lt;/strong&gt;&lt;div class=&quot;eyebrow&quot;&gt;修改权重、设置必过项；权重总和需为 100%&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button id=&quot;regenerateModel&quot; type=&quot;button&quot;&gt;仅重生成模型&lt;/button&gt;&lt;button class=&quot;primary&quot; id=&quot;saveTemplate&quot; type=&quot;button&quot;&gt;保存为企业模板&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;grid&quot;&gt;
+        &lt;div class=&quot;card&quot;&gt;&lt;h2&gt;能力项与权重&lt;/h2&gt;&lt;div id=&quot;capabilities&quot;&gt;&lt;/div&gt;&lt;p class=&quot;note&quot; id=&quot;weightTotal&quot;&gt;总权重：100%&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;card stack&quot;&gt;
+          &lt;h2&gt;生成的成功画像&lt;/h2&gt;
+          &lt;label class=&quot;label&quot;&gt;岗位使命&lt;textarea id=&quot;mission&quot;&gt;对亚马逊平台的经营结果负责，在品牌化转型中实现可持续增长与利润改善。&lt;/textarea&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;成功标准&lt;textarea id=&quot;successProfile&quot;&gt;能独立经营完整 P&amp;L；通过跨团队协同解决库存与资源问题；搭建有节奏、有方法论的运营团队。&lt;/textarea&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;风险画像&lt;textarea id=&quot;riskProfile&quot;&gt;仅有单点运营经验、无法说明利润结构和本人贡献、依赖资源但缺少协同影响力。&lt;/textarea&gt;&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;pane&quot; id=&quot;questions&quot; aria-label=&quot;面试题库&quot;&gt;
+      &lt;div class=&quot;topline&quot;&gt;&lt;div&gt;&lt;strong&gt;分轮结构化题库&lt;/strong&gt;&lt;div class=&quot;eyebrow&quot;&gt;题目与岗位模型一一映射，HRVP 可编辑或局部再生成&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button class=&quot;round active&quot; data-round=&quot;hrvp&quot; type=&quot;button&quot;&gt;HRVP 初面&lt;/button&gt;&lt;button class=&quot;round&quot; data-round=&quot;boss&quot; type=&quot;button&quot;&gt;老板终面&lt;/button&gt;&lt;button id=&quot;regenerateQuestions&quot; type=&quot;button&quot;&gt;仅重生成题库&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; id=&quot;questionList&quot;&gt;&lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;pane&quot; id=&quot;evaluation&quot; aria-label=&quot;面试评价&quot;&gt;
+      &lt;div class=&quot;grid&quot;&gt;
+        &lt;div class=&quot;card stack&quot;&gt;
+          &lt;h2&gt;HRVP 初面评价&lt;/h2&gt;
+          &lt;label class=&quot;label&quot;&gt;候选人&lt;label class=&quot;label&quot;&gt;&lt;input value=&quot;候选人 A（演示）&quot;&gt;&lt;/label&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;经营与结果能力（必过项）&lt;select class=&quot;scoreInput&quot; data-weight=&quot;25&quot;&gt;&lt;option value=&quot;1&quot;&gt;1 · 不具备&lt;/option&gt;&lt;option value=&quot;2&quot;&gt;2 · 基本具备&lt;/option&gt;&lt;option value=&quot;3&quot;&gt;3 · 胜任&lt;/option&gt;&lt;option value=&quot;4&quot; selected&gt;4 · 显著超出&lt;/option&gt;&lt;option value=&quot;5&quot;&gt;5 · 显著超出&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;团队与协同能力&lt;select class=&quot;scoreInput&quot; data-weight=&quot;20&quot;&gt;&lt;option value=&quot;1&quot;&gt;1 · 不具备&lt;/option&gt;&lt;option value=&quot;2&quot;&gt;2 · 基本具备&lt;/option&gt;&lt;option value=&quot;3&quot; selected&gt;3 · 胜任&lt;/option&gt;&lt;option value=&quot;4&quot;&gt;4 · 显著超出&lt;/option&gt;&lt;option value=&quot;5&quot;&gt;5 · 显著超出&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;事实证据&lt;textarea id=&quot;evidence&quot;&gt;候选人说明曾负责年销售额 3 亿元的美国站业务，重构利润看板并推动广告和供应链协同，利润率提升 4 个百分点。&lt;/textarea&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;本轮结论&lt;select id=&quot;hrvpResult&quot;&gt;&lt;option value=&quot;推荐&quot; selected&gt;推荐&lt;/option&gt;&lt;option value=&quot;有条件推荐&quot;&gt;有条件推荐&lt;/option&gt;&lt;option value=&quot;待补证&quot;&gt;待补证&lt;/option&gt;&lt;option value=&quot;不推荐&quot;&gt;不推荐&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+          &lt;button class=&quot;primary&quot; id=&quot;submitHrvp&quot; type=&quot;button&quot;&gt;提交 HRVP 评价&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;card stack&quot;&gt;
+          &lt;h2&gt;提交规则&lt;/h2&gt;
+          &lt;p class=&quot;note&quot;&gt;核心能力评分达到“胜任”及以上时，必须写入可验证的事实证据。&lt;/p&gt;
+          &lt;p class=&quot;note&quot;&gt;提交前，老板不可见 HRVP 的详细评价；在老板提交后，汇总页才展示分歧与共同风险。&lt;/p&gt;
+          &lt;p class=&quot;status&quot; id=&quot;evaluationStatus&quot;&gt;尚未提交。演示中，提交会同步更新决策汇总。&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;pane&quot; id=&quot;decision&quot; aria-label=&quot;决策汇总&quot;&gt;
+      &lt;div class=&quot;grid three&quot;&gt;
+        &lt;div class=&quot;card&quot;&gt;&lt;div class=&quot;eyebrow&quot;&gt;加权总分&lt;/div&gt;&lt;div class=&quot;score&quot; id=&quot;totalScore&quot;&gt;78&lt;/div&gt;&lt;div class=&quot;note&quot;&gt;录用候选门槛：75&lt;/div&gt;&lt;/div&gt;
+        &lt;div class=&quot;card&quot;&gt;&lt;div class=&quot;eyebrow&quot;&gt;必过项&lt;/div&gt;&lt;div class=&quot;score&quot; id=&quot;mustPass&quot;&gt;通过&lt;/div&gt;&lt;div class=&quot;note&quot;&gt;经营与结果能力 ≥ 3 分&lt;/div&gt;&lt;/div&gt;
+        &lt;div class=&quot;card&quot;&gt;&lt;div class=&quot;eyebrow&quot;&gt;HRVP 结论&lt;/div&gt;&lt;div class=&quot;score&quot; id=&quot;hrvpConclusion&quot;&gt;推荐&lt;/div&gt;&lt;div class=&quot;note&quot;&gt;HRVP 不推荐将暂停流程&lt;/div&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;grid&quot;&gt;
+        &lt;div class=&quot;card stack&quot;&gt;
+          &lt;h2&gt;证据与待验证&lt;/h2&gt;
+          &lt;div class=&quot;decision&quot;&gt;&lt;strong&gt;正向证据&lt;/strong&gt;&lt;p class=&quot;note&quot; id=&quot;decisionEvidence&quot;&gt;具备美国站 P&amp;L 经营案例，并能说明广告、库存协同对利润改善的贡献。&lt;/p&gt;&lt;/div&gt;
+          &lt;div class=&quot;decision&quot;&gt;&lt;strong&gt;待验证&lt;/strong&gt;&lt;p class=&quot;note&quot;&gt;进一步核验团队规模、本人在利润改善项目中的直接决策权。&lt;/p&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;span class=&quot;tag&quot;&gt;无红线触发&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;HRVP 已提交&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;card stack&quot;&gt;
+          &lt;h2&gt;最终决策&lt;/h2&gt;
+          &lt;label class=&quot;label&quot;&gt;老板决策&lt;select id=&quot;bossDecision&quot;&gt;&lt;option value=&quot;录用&quot;&gt;录用&lt;/option&gt;&lt;option value=&quot;补充验证&quot;&gt;补充验证&lt;/option&gt;&lt;option value=&quot;不录用&quot;&gt;不录用&lt;/option&gt;&lt;option value=&quot;例外录用&quot;&gt;例外录用&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;决策说明&lt;textarea id=&quot;decisionReason&quot;&gt;达到岗位核心能力门槛，建议在终面进一步验证团队搭建经验。&lt;/textarea&gt;&lt;/label&gt;
+          &lt;button class=&quot;primary&quot; id=&quot;confirmDecision&quot; type=&quot;button&quot;&gt;确认并留痕&lt;/button&gt;
+          &lt;p class=&quot;status&quot; id=&quot;decisionStatus&quot;&gt;等待老板最终决策。&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    (() =&gt; {
+      const root = document.getElementById(&#x27;interview-model-prototype&#x27;);
+      const amazon = [
+        [&#x27;经营与 P&amp;L 结果&#x27;, 25, true], [&#x27;平台增长与策略&#x27;, 20, true], [&#x27;利润、库存与资源协同&#x27;, 20, true], [&#x27;品牌化转型判断&#x27;, 15, false], [&#x27;团队与中台建设&#x27;, 10, false], [&#x27;价值观与影响力&#x27;, 10, false]
+      ];
+      const supply = [
+        [&#x27;新品开发与供应商管理&#x27;, 20, true], [&#x27;采购降本与成本管理&#x27;, 25, true], [&#x27;大货交付、质量与退损&#x27;, 25, true], [&#x27;供应风险应对&#x27;, 10, false], [&#x27;团队与跨部门协同&#x27;, 10, false], [&#x27;品牌转型意识与价值观&#x27;, 10, false]
+      ];
+      let isSupply = false;
+      const el = (s) =&gt; root.querySelector(s);
+      const renderCapabilities = () =&gt; {
+        const list = isSupply ? supply : amazon;
+        el(&#x27;#capabilities&#x27;).innerHTML = list.map((x, i) =&gt; `&lt;div class=&quot;capability&quot;&gt;&lt;label class=&quot;label&quot;&gt;&lt;input value=&quot;${x[0]}&quot; aria-label=&quot;能力项 ${i + 1}&quot;&gt;&lt;/label&gt;&lt;label class=&quot;label&quot;&gt;&lt;input class=&quot;weight&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;${x[1]}&quot; aria-label=&quot;${x[0]}权重&quot;&gt;%&lt;/label&gt;&lt;label class=&quot;label&quot;&gt;&lt;select aria-label=&quot;${x[0]}是否必过&quot;&gt;&lt;option ${x[2] ? &#x27;selected&#x27; : &#x27;&#x27;}&gt;必过项&lt;/option&gt;&lt;option ${x[2] ? &#x27;&#x27; : &#x27;selected&#x27;}&gt;普通项&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;`).join(&#x27;&#x27;);
+        root.querySelectorAll(&#x27;.weight&#x27;).forEach(i =&gt; i.addEventListener(&#x27;input&#x27;, calcWeights));
+      };
+      const calcWeights = () =&gt; { const total = [...root.querySelectorAll(&#x27;.weight&#x27;)].reduce((a, i) =&gt; a + (+i.value || 0), 0); el(&#x27;#weightTotal&#x27;).textContent = `总权重：${total}%${total === 100 ? &#x27;（可保存）&#x27; : &#x27;（请调整至 100%）&#x27;}`; };
+      const questions = {
+        hrvp: [
+          [&#x27;带队与组织建设&#x27;, &#x27;请讲一次你接手或重建团队的经历：原来的问题是什么，你如何识别关键人才、调整分工并建立机制？&#x27;, &#x27;追问：团队规模、人员变化、具体机制、结果及失败复盘。&#x27;],
+          [&#x27;业绩真实性与协同&#x27;, &#x27;选择一个你最有代表性的经营改善项目，说明你本人做了哪些关键决策，以及广告、品牌、供应链分别如何协同。&#x27;, &#x27;验证：本人角色、量化结果、可核验对象、协同阻力。&#x27;],
+          [&#x27;动机与价值观&#x27;, &#x27;为什么选择当前阶段的品牌转型公司？你最可能与老板或协同方发生什么分歧，会如何处理？&#x27;, &#x27;风险：只谈职位或资源，不理解转型约束。&#x27;]
+        ],
+        boss: [
+          [&#x27;经营判断与授权价值&#x27;, &#x27;如果接手一个增长放缓、利润承压的美国站业务，你入职前 90 天会先看什么，分别做哪些取舍？&#x27;, &#x27;验证：P&amp;L、库存、流量与组织的优先级和判断依据。&#x27;],
+          [&#x27;复杂决策&#x27;, &#x27;讲一次你在信息不完整、利益相关方意见冲突时做出的重大经营决策。最终结果如何？&#x27;, &#x27;追问：备选方案、承担的代价、数据依据和复盘。&#x27;],
+          [&#x27;品牌化转型&#x27;, &#x27;从铺货转向品牌经营时，平台负责人最需要改变的三件事是什么？&#x27;, &#x27;正向证据：能同时理解短期效率与长期品牌资产。&#x27;]
+        ]
+      };
+      const renderQuestions = (round) =&gt; { el(&#x27;#questionList&#x27;).innerHTML = questions[round].map((q, i) =&gt; `&lt;article class=&quot;question&quot;&gt;&lt;strong&gt;${i + 1}. ${q[0]}&lt;/strong&gt;&lt;p&gt;${q[1]}&lt;/p&gt;&lt;p class=&quot;note&quot;&gt;&lt;b&gt;追问 / 验证：&lt;/b&gt;${q[2]}&lt;/p&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button type=&quot;button&quot;&gt;编辑题目&lt;/button&gt;&lt;button type=&quot;button&quot;&gt;锁定题目&lt;/button&gt;&lt;/div&gt;&lt;/article&gt;`).join(&#x27;&#x27;); };
+      root.querySelectorAll(&#x27;.step&#x27;).forEach(b =&gt; b.addEventListener(&#x27;click&#x27;, () =&gt; { root.querySelectorAll(&#x27;.step&#x27;).forEach(x =&gt; x.classList.remove(&#x27;active&#x27;)); root.querySelectorAll(&#x27;.pane&#x27;).forEach(x =&gt; x.classList.remove(&#x27;active&#x27;)); b.classList.add(&#x27;active&#x27;); el(&#x27;#&#x27; + b.dataset.pane).classList.add(&#x27;active&#x27;); }));
+      root.querySelectorAll(&#x27;.round&#x27;).forEach(b =&gt; b.addEventListener(&#x27;click&#x27;, () =&gt; { root.querySelectorAll(&#x27;.round&#x27;).forEach(x =&gt; x.classList.remove(&#x27;active&#x27;)); b.classList.add(&#x27;active&#x27;); renderQuestions(b.dataset.round); }));
+      el(&#x27;#generate&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const name = el(&#x27;#jobName&#x27;).value.trim() || &#x27;未命名岗位&#x27;; el(&#x27;#roleTitle&#x27;).textContent = name; el(&#x27;#generateStatus&#x27;).textContent = `已根据“${name}”及已填写 Brief 生成初稿。HRVP 可前往模型和题库继续校准。`; renderCapabilities(); renderQuestions(&#x27;hrvp&#x27;); });
+      el(&#x27;#loadSupply&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { isSupply = true; el(&#x27;#jobName&#x27;).value = &#x27;跨境服装供应链总监&#x27;; el(&#x27;#industry&#x27;).value = &#x27;跨境服装 B2C · 自有品牌转型&#x27;; el(&#x27;#responsibility&#x27;).value = &#x27;负责新品开发、采购、供应商管理和大货交付，实现降本、交付保障及退损改善。&#x27;; el(&#x27;#goals&#x27;).value = &#x27;降低采购成本、提升交付达成、改善质量和退损。&#x27;; el(&#x27;#roleTitle&#x27;).textContent = &#x27;跨境服装供应链总监&#x27;; el(&#x27;#generateStatus&#x27;).textContent = &#x27;已载入供应链总监示例，可修改 Brief 后重新生成。&#x27;; renderCapabilities(); });
+      el(&#x27;#regenerateModel&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { renderCapabilities(); el(&#x27;#weightTotal&#x27;).textContent = &#x27;模型已按最新岗位 Brief 更新；已锁定的人工内容将保留。&#x27;; });
+      el(&#x27;#saveTemplate&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { el(&#x27;#weightTotal&#x27;).textContent = &#x27;已保存为企业岗位模板（演示）。&#x27;; });
+      el(&#x27;#regenerateQuestions&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const active = root.querySelector(&#x27;.round.active&#x27;).dataset.round; renderQuestions(active); });
+      el(&#x27;#submitHrvp&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const evidence = el(&#x27;#evidence&#x27;).value.trim(); if (!evidence) { el(&#x27;#evaluationStatus&#x27;).textContent = &#x27;请先补充事实证据，再提交评价。&#x27;; return; } el(&#x27;#evaluationStatus&#x27;).textContent = &#x27;HRVP 评价已提交并锁定（演示）。&#x27;; el(&#x27;#hrvpConclusion&#x27;).textContent = el(&#x27;#hrvpResult&#x27;).value; el(&#x27;#decisionEvidence&#x27;).textContent = evidence; const inputs = [...root.querySelectorAll(&#x27;.scoreInput&#x27;)]; const score = Math.round(inputs.reduce((s, x) =&gt; s + (+x.value) * (+x.dataset.weight), 0) / inputs.reduce((s, x) =&gt; s + (+x.dataset.weight), 0) * 20); el(&#x27;#totalScore&#x27;).textContent = score; el(&#x27;#mustPass&#x27;).textContent = +inputs[0].value &gt;= 3 ? &#x27;通过&#x27; : &#x27;未通过&#x27;; });
+      el(&#x27;#confirmDecision&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const d = el(&#x27;#bossDecision&#x27;).value; const reason = el(&#x27;#decisionReason&#x27;).value.trim(); if (d === &#x27;例外录用&#x27; &amp;&amp; !reason) { el(&#x27;#decisionStatus&#x27;).textContent = &#x27;例外录用必须填写例外理由、已知风险和入职后动作。&#x27;; return; } el(&#x27;#decisionStatus&#x27;).textContent = `已记录老板决策：${d}（演示）。`; });
+      renderCapabilities(); renderQuestions(&#x27;hrvp&#x27;);
+    })();
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+<button class="install-button" id="installApp" type="button">安装到设备</button>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+  }
+
+  let installPrompt;
+  const installButton = document.getElementById("installApp");
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    installPrompt = event;
+    installButton.classList.add("visible");
+  });
+  installButton.addEventListener("click", async () => {
+    if (!installPrompt) return;
+    await installPrompt.prompt();
+    installPrompt = null;
+    installButton.classList.remove("visible");
+  });
+  window.addEventListener("appinstalled", () => installButton.classList.remove("visible"));
+</script>
+</body>
+</html>
