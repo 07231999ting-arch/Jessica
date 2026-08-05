@@ -769,6 +769,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     #interview-model-prototype .card { border:1px solid var(--border); background:var(--card); color:var(--card-foreground); border-radius:12px; padding:22px; box-shadow:0 1px 2px rgb(0 0 0 / 3%); }
     #interview-model-prototype .card h2, #interview-model-prototype .card h3 { margin:0 0 4px; font-size:1.05em; font-weight:650; letter-spacing:-.01em; }
     #interview-model-prototype .label { display:grid; gap:7px; color:#333; font-size:.9em; font-weight:550; }
+    #interview-model-prototype .field-hint { color:var(--muted-foreground); font-size:.82em; font-weight:430; }
     #interview-model-prototype input, #interview-model-prototype select, #interview-model-prototype textarea { width:100%; color:var(--foreground); background:#fff; border:1px solid var(--input); border-radius:8px; padding:10px 11px; font:inherit; font-weight:430; transition:border-color 150ms,box-shadow 150ms; }
     #interview-model-prototype input:hover, #interview-model-prototype select:hover, #interview-model-prototype textarea:hover { border-color:#999; }
     #interview-model-prototype textarea { min-height:92px; resize:vertical; line-height:1.6; }
@@ -813,7 +814,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;div class=&quot;grid&quot;&gt;
         &lt;div class=&quot;card stack&quot;&gt;
           &lt;h2&gt;创建岗位&lt;/h2&gt;
-          &lt;label class=&quot;label&quot;&gt;职位名称&lt;input id=&quot;jobName&quot; value=&quot;亚马逊总监&quot;&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;职位名称&lt;span class=&quot;field-hint&quot;&gt;输入岗位名称，停顿片刻后将自动补全岗位 Brief&lt;/span&gt;&lt;input id=&quot;jobName&quot; value=&quot;亚马逊总监&quot; autocomplete=&quot;off&quot;&gt;&lt;/label&gt;
           &lt;label class=&quot;label&quot;&gt;行业 / 业务模式&lt;input id=&quot;industry&quot; value=&quot;跨境服装 B2C · 自有品牌转型&quot;&gt;&lt;/label&gt;
           &lt;label class=&quot;label&quot;&gt;核心职责&lt;textarea id=&quot;responsibility&quot;&gt;对美国为主、兼有欧洲市场的亚马逊业务经营负责；拉通库存、广告与品牌资源，实现营收、利润、增长和组织能力建设。&lt;/textarea&gt;&lt;/label&gt;
           &lt;div class=&quot;actions&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;generate&quot; type=&quot;button&quot;&gt;生成岗位方案&lt;/button&gt;&lt;button id=&quot;loadSupply&quot; type=&quot;button&quot;&gt;载入供应链总监示例&lt;/button&gt;&lt;/div&gt;
@@ -827,7 +828,7 @@ html&gt;body{padding:0}&lt;/style&gt;
           &lt;p class=&quot;note&quot;&gt;可先生成通用初稿，再补充企业信息后仅重生成某个模块。人工编辑内容可锁定保留。&lt;/p&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      &lt;p class=&quot;status&quot; id=&quot;generateStatus&quot;&gt;当前为基于通用行业知识的初稿，可由 HRVP 校准后保存。&lt;/p&gt;
+      &lt;p class=&quot;status&quot; id=&quot;generateStatus&quot; aria-live=&quot;polite&quot;&gt;输入岗位名称后，系统将自动生成核心职责及企业 Brief。&lt;/p&gt;
     &lt;/section&gt;
 
     &lt;section class=&quot;pane&quot; id=&quot;model&quot; aria-label=&quot;胜任力模型&quot;&gt;
@@ -900,8 +901,118 @@ html&gt;body{padding:0}&lt;/style&gt;
       const supply = [
         [&#x27;新品开发与供应商管理&#x27;, 20, true], [&#x27;采购降本与成本管理&#x27;, 25, true], [&#x27;大货交付、质量与退损&#x27;, 25, true], [&#x27;供应风险应对&#x27;, 10, false], [&#x27;团队与跨部门协同&#x27;, 10, false], [&#x27;品牌转型意识与价值观&#x27;, 10, false]
       ];
+      const roleTemplates = [
+        {
+          keywords: [&#x27;亚马逊&#x27;, &#x27;amazon&#x27;, &#x27;跨境电商运营&#x27;],
+          label: &#x27;跨境电商经营岗位&#x27;,
+          industry: &#x27;跨境电商 B2C · 平台经营与品牌增长&#x27;,
+          responsibility: &#x27;负责亚马逊平台整体经营，对销售额、利润、库存周转和品牌增长负责；制定站点与品类策略，协同广告、供应链和品牌团队，持续提升经营效率。&#x27;,
+          company: &#x27;跨境电商成长型企业，处于规模化与品牌化转型阶段&#x27;,
+          team: &#x27;向业务负责人或 CEO 汇报，管理运营、广告及项目协同团队&#x27;,
+          goals: &#x27;实现营收与利润目标，改善库存效率，建立可复制的平台经营机制并提升团队能力。&#x27;,
+          constraints: &#x27;具备完整平台经营与 P&amp;L 经验；能够说明本人贡献；数据真实性与职业诚信为红线。&#x27;
+        },
+        {
+          keywords: [&#x27;供应链&#x27;, &#x27;采购&#x27;, &#x27;供应商&#x27;, &#x27;计划经理&#x27;],
+          label: &#x27;供应链岗位&#x27;,
+          industry: &#x27;供应链管理 · 采购、计划、交付与质量协同&#x27;,
+          responsibility: &#x27;负责供应链策略、采购与供应商管理、产销计划、大货交付及质量改善；推动成本优化、交付保障、库存健康和供应风险管理。&#x27;,
+          company: &#x27;处于业务增长和供应链体系升级阶段的消费品企业&#x27;,
+          team: &#x27;向 COO 或总经理汇报，管理采购、计划、跟单及质量团队&#x27;,
+          goals: &#x27;降低综合采购成本，提升准时交付率与库存周转，减少质量损失并建立供应商分级管理机制。&#x27;,
+          constraints: &#x27;具备端到端供应链经验和关键供应商谈判能力；重大质量、合规或诚信问题为红线。&#x27;
+        },
+        {
+          keywords: [&#x27;人力资源&#x27;, &#x27;hr&#x27;, &#x27;招聘&#x27;, &#x27;人才发展&#x27;, &#x27;组织发展&#x27;],
+          label: &#x27;人力资源岗位&#x27;,
+          industry: &#x27;企业人力资源管理 · 组织与人才体系建设&#x27;,
+          responsibility: &#x27;围绕业务战略制定人力资源规划，负责招聘配置、人才盘点、绩效与激励、组织发展和员工关系；为管理团队提供组织与人才决策支持。&#x27;,
+          company: &#x27;业务快速发展、组织能力需要同步升级的成长型企业&#x27;,
+          team: &#x27;向 CEO 或人力资源负责人汇报，协同业务管理者并管理 HR 团队&#x27;,
+          goals: &#x27;提升关键岗位到岗率与人才密度，完善绩效和人才发展机制，降低核心人才流失并提升组织效率。&#x27;,
+          constraints: &#x27;具备业务导向的人力资源实践经验；能够处理复杂组织问题；保密意识、合规和职业操守为红线。&#x27;
+        },
+        {
+          keywords: [&#x27;财务&#x27;, &#x27;cfo&#x27;, &#x27;会计&#x27;, &#x27;审计&#x27;, &#x27;税务&#x27;],
+          label: &#x27;财务管理岗位&#x27;,
+          industry: &#x27;企业财务管理 · 预算、经营分析与风险控制&#x27;,
+          responsibility: &#x27;负责财务规划、预算管理、经营分析、核算税务、资金与内控体系；为管理层提供经营决策支持，并保障财务数据准确、合规和及时。&#x27;,
+          company: &#x27;处于规模化经营和财务规范化建设阶段的企业&#x27;,
+          team: &#x27;向 CEO 或 CFO 汇报，管理核算、财务分析、资金及税务团队&#x27;,
+          goals: &#x27;提升预算准确性和经营分析质量，优化现金流与成本结构，完善内控并降低税务和合规风险。&#x27;,
+          constraints: &#x27;具备完整财务管理或专业模块经验；数据真实性、重大合规风险和职业诚信为红线。&#x27;
+        },
+        {
+          keywords: [&#x27;销售&#x27;, &#x27;商务&#x27;, &#x27;渠道&#x27;, &#x27;大客户&#x27;],
+          label: &#x27;销售管理岗位&#x27;,
+          industry: &#x27;市场销售 · 客户增长与商业化经营&#x27;,
+          responsibility: &#x27;制定销售策略和目标，负责客户开发、商机管理、渠道建设、合同谈判与回款；搭建销售流程和团队管理机制，持续提升收入质量与客户价值。&#x27;,
+          company: &#x27;处于市场扩张和销售体系规模化阶段的企业&#x27;,
+          team: &#x27;向销售负责人或 CEO 汇报，管理销售及商务支持团队&#x27;,
+          goals: &#x27;达成收入与回款目标，提升重点客户覆盖和转化率，缩短销售周期并建立可预测的销售漏斗。&#x27;,
+          constraints: &#x27;具备可核验的销售业绩和客户资源转化能力；虚报业绩、商业贿赂或诚信问题为红线。&#x27;
+        },
+        {
+          keywords: [&#x27;产品&#x27;, &#x27;用户研究&#x27;],
+          label: &#x27;产品岗位&#x27;,
+          industry: &#x27;数字化产品 · 用户价值与产品增长&#x27;,
+          responsibility: &#x27;负责产品规划、用户研究、需求分析、方案设计和版本推进；协调研发、设计、运营与业务团队，以数据验证产品价值并持续优化用户体验。&#x27;,
+          company: &#x27;处于产品快速迭代和商业模式验证阶段的科技企业&#x27;,
+          team: &#x27;向产品负责人或业务负责人汇报，协同研发、设计和运营团队&#x27;,
+          goals: &#x27;完成关键产品版本交付，提升核心功能使用率和用户留存，建立清晰的产品规划与数据评估机制。&#x27;,
+          constraints: &#x27;具备完整产品闭环经验；能区分本人贡献与团队成果；用户数据和商业信息保密为红线。&#x27;
+        },
+        {
+          keywords: [&#x27;技术&#x27;, &#x27;研发&#x27;, &#x27;开发&#x27;, &#x27;cto&#x27;, &#x27;架构师&#x27;, &#x27;工程师&#x27;],
+          label: &#x27;技术研发岗位&#x27;,
+          industry: &#x27;软件与数字化技术 · 研发交付和技术治理&#x27;,
+          responsibility: &#x27;负责技术方案设计、研发交付、系统稳定性和工程质量；解决关键技术问题，推动架构演进、研发效能提升及团队技术能力建设。&#x27;,
+          company: &#x27;处于系统扩展和研发体系升级阶段的科技或数字化企业&#x27;,
+          team: &#x27;向 CTO 或研发负责人汇报，协同产品、测试、运维和业务团队&#x27;,
+          goals: &#x27;按期交付关键项目，提升系统稳定性与研发效率，降低技术债并建立可持续的工程规范。&#x27;,
+          constraints: &#x27;具备与岗位层级匹配的技术深度和项目经验；数据安全、代码合规和职业诚信为红线。&#x27;
+        },
+        {
+          keywords: [&#x27;市场&#x27;, &#x27;品牌&#x27;, &#x27;营销&#x27;, &#x27;增长&#x27;],
+          label: &#x27;市场品牌岗位&#x27;,
+          industry: &#x27;市场与品牌 · 品牌建设和用户增长&#x27;,
+          responsibility: &#x27;负责市场策略、品牌定位、整合营销和增长项目；洞察用户与竞争环境，协同内容、渠道、销售和产品团队提升品牌影响力与获客效率。&#x27;,
+          company: &#x27;处于品牌升级和市场增长阶段的消费或互联网企业&#x27;,
+          team: &#x27;向市场负责人或 CEO 汇报，管理品牌、内容、媒介及增长团队&#x27;,
+          goals: &#x27;提升品牌认知和目标用户渗透，改善获客成本与转化率，沉淀可复用的营销方法和数据评估体系。&#x27;,
+          constraints: &#x27;具备可核验的品牌或增长项目成果；数据造假、侵权和重大合规问题为红线。&#x27;
+        }
+      ];
       let isSupply = false;
       const el = (s) =&gt; root.querySelector(s);
+      const resolveRoleTemplate = (name) =&gt; {
+        const normalized = name.toLowerCase();
+        const matched = roleTemplates.find(template =&gt; template.keywords.some(keyword =&gt; normalized.includes(keyword)));
+        if (matched) return matched;
+        return {
+          label: &#x27;通用岗位&#x27;,
+          industry: &#x27;企业经营管理 · 专业职能与跨团队协作&#x27;,
+          responsibility: `负责${name}相关工作的规划、执行与持续优化；承接业务目标，协调内外部资源，建立工作机制并对关键结果负责。`,
+          company: &#x27;处于业务发展和管理体系完善阶段的成长型企业&#x27;,
+          team: &#x27;向对应职能负责人汇报，与业务及相关职能团队紧密协作&#x27;,
+          goals: `在 12–24 个月内完成${name}核心目标，提升工作质量与效率，并形成可复制的流程和团队能力。`,
+          constraints: &#x27;具备与岗位层级匹配的专业经验和结果案例；重大合规、诚信或履历真实性问题为红线。&#x27;
+        };
+      };
+      const applyBriefTemplate = (name, announce = true) =&gt; {
+        const template = resolveRoleTemplate(name);
+        el(&#x27;#industry&#x27;).value = template.industry;
+        el(&#x27;#responsibility&#x27;).value = template.responsibility;
+        el(&#x27;#company&#x27;).value = template.company;
+        el(&#x27;#team&#x27;).value = template.team;
+        el(&#x27;#goals&#x27;).value = template.goals;
+        el(&#x27;#constraints&#x27;).value = template.constraints;
+        el(&#x27;#roleTitle&#x27;).textContent = name;
+        isSupply = template.label === &#x27;供应链岗位&#x27;;
+        if (announce) el(&#x27;#generateStatus&#x27;).textContent = `已根据“${name}”自动生成${template.label} Brief，可继续人工修改。`;
+        return template;
+      };
+      let autoGenerateTimer;
       const renderCapabilities = () =&gt; {
         const list = isSupply ? supply : amazon;
         el(&#x27;#capabilities&#x27;).innerHTML = list.map((x, i) =&gt; `&lt;div class=&quot;capability&quot;&gt;&lt;label class=&quot;label&quot;&gt;&lt;input value=&quot;${x[0]}&quot; aria-label=&quot;能力项 ${i + 1}&quot;&gt;&lt;/label&gt;&lt;label class=&quot;label&quot;&gt;&lt;input class=&quot;weight&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;${x[1]}&quot; aria-label=&quot;${x[0]}权重&quot;&gt;%&lt;/label&gt;&lt;label class=&quot;label&quot;&gt;&lt;select aria-label=&quot;${x[0]}是否必过&quot;&gt;&lt;option ${x[2] ? &#x27;selected&#x27; : &#x27;&#x27;}&gt;必过项&lt;/option&gt;&lt;option ${x[2] ? &#x27;&#x27; : &#x27;selected&#x27;}&gt;普通项&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;`).join(&#x27;&#x27;);
@@ -923,8 +1034,22 @@ html&gt;body{padding:0}&lt;/style&gt;
       const renderQuestions = (round) =&gt; { el(&#x27;#questionList&#x27;).innerHTML = questions[round].map((q, i) =&gt; `&lt;article class=&quot;question&quot;&gt;&lt;strong&gt;${i + 1}. ${q[0]}&lt;/strong&gt;&lt;p&gt;${q[1]}&lt;/p&gt;&lt;p class=&quot;note&quot;&gt;&lt;b&gt;追问 / 验证：&lt;/b&gt;${q[2]}&lt;/p&gt;&lt;div class=&quot;actions&quot;&gt;&lt;button type=&quot;button&quot;&gt;编辑题目&lt;/button&gt;&lt;button type=&quot;button&quot;&gt;锁定题目&lt;/button&gt;&lt;/div&gt;&lt;/article&gt;`).join(&#x27;&#x27;); };
       root.querySelectorAll(&#x27;.step&#x27;).forEach(b =&gt; b.addEventListener(&#x27;click&#x27;, () =&gt; { root.querySelectorAll(&#x27;.step&#x27;).forEach(x =&gt; x.classList.remove(&#x27;active&#x27;)); root.querySelectorAll(&#x27;.pane&#x27;).forEach(x =&gt; x.classList.remove(&#x27;active&#x27;)); b.classList.add(&#x27;active&#x27;); el(&#x27;#&#x27; + b.dataset.pane).classList.add(&#x27;active&#x27;); }));
       root.querySelectorAll(&#x27;.round&#x27;).forEach(b =&gt; b.addEventListener(&#x27;click&#x27;, () =&gt; { root.querySelectorAll(&#x27;.round&#x27;).forEach(x =&gt; x.classList.remove(&#x27;active&#x27;)); b.classList.add(&#x27;active&#x27;); renderQuestions(b.dataset.round); }));
-      el(&#x27;#generate&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const name = el(&#x27;#jobName&#x27;).value.trim() || &#x27;未命名岗位&#x27;; el(&#x27;#roleTitle&#x27;).textContent = name; el(&#x27;#generateStatus&#x27;).textContent = `已根据“${name}”及已填写 Brief 生成初稿。HRVP 可前往模型和题库继续校准。`; renderCapabilities(); renderQuestions(&#x27;hrvp&#x27;); });
-      el(&#x27;#loadSupply&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { isSupply = true; el(&#x27;#jobName&#x27;).value = &#x27;跨境服装供应链总监&#x27;; el(&#x27;#industry&#x27;).value = &#x27;跨境服装 B2C · 自有品牌转型&#x27;; el(&#x27;#responsibility&#x27;).value = &#x27;负责新品开发、采购、供应商管理和大货交付，实现降本、交付保障及退损改善。&#x27;; el(&#x27;#goals&#x27;).value = &#x27;降低采购成本、提升交付达成、改善质量和退损。&#x27;; el(&#x27;#roleTitle&#x27;).textContent = &#x27;跨境服装供应链总监&#x27;; el(&#x27;#generateStatus&#x27;).textContent = &#x27;已载入供应链总监示例，可修改 Brief 后重新生成。&#x27;; renderCapabilities(); });
+      el(&#x27;#jobName&#x27;).addEventListener(&#x27;input&#x27;, (event) =&gt; {
+        if (event.isComposing) return;
+        window.clearTimeout(autoGenerateTimer);
+        const name = event.target.value.trim();
+        if (name.length &lt; 2) {
+          el(&#x27;#generateStatus&#x27;).textContent = &#x27;请至少输入两个字的岗位名称。&#x27;;
+          return;
+        }
+        el(&#x27;#generateStatus&#x27;).textContent = `正在识别“${name}”并生成岗位 Brief…`;
+        autoGenerateTimer = window.setTimeout(() =&gt; {
+          applyBriefTemplate(name);
+          renderCapabilities();
+        }, 500);
+      });
+      el(&#x27;#generate&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const name = el(&#x27;#jobName&#x27;).value.trim() || &#x27;未命名岗位&#x27;; applyBriefTemplate(name); renderCapabilities(); renderQuestions(&#x27;hrvp&#x27;); });
+      el(&#x27;#loadSupply&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const name = &#x27;跨境服装供应链总监&#x27;; el(&#x27;#jobName&#x27;).value = name; applyBriefTemplate(name); renderCapabilities(); });
       el(&#x27;#regenerateModel&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { renderCapabilities(); el(&#x27;#weightTotal&#x27;).textContent = &#x27;模型已按最新岗位 Brief 更新；已锁定的人工内容将保留。&#x27;; });
       el(&#x27;#saveTemplate&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { el(&#x27;#weightTotal&#x27;).textContent = &#x27;已保存为企业岗位模板（演示）。&#x27;; });
       el(&#x27;#regenerateQuestions&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const active = root.querySelector(&#x27;.round.active&#x27;).dataset.round; renderQuestions(active); });
