@@ -1,22 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src 'self' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src 'self' blob:; connect-src 'self' blob: data:; manifest-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<meta name="theme-color" content="#339cff">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="岗位面试">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
 <title>岗位胜任力模型面试系统</title>
-<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0;min-height:100%}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;max-width:736px;height:calc(100vh - 2rem);margin:0 auto;border:0}.install-button{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:10;display:none;border:0;border-radius:999px;padding:11px 16px;background:#339cff;color:#fff;font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:0 8px 24px rgb(0 0 0 / 20%);cursor:pointer}.install-button.visible{display:block}@media(display-mode:standalone){body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}iframe{max-width:none;height:calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}}@media(max-width:767px){body{padding:0}iframe{max-width:none;height:100vh}}</style>
+<style>:root{color-scheme:light;background:#fff}html,body{margin:0;min-height:100%;background:#fff}body{box-sizing:border-box;padding:0}iframe{display:block;width:100%;max-width:1440px;height:100vh;margin:0 auto;border:0;background:#fff}.install-button{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:10;display:none;border:1px solid #111;border-radius:10px;padding:12px 17px;background:#111;color:#fff;font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:0 8px 24px rgb(0 0 0 / 14%);cursor:pointer}.install-button.visible{display:block}@media(display-mode:standalone){body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}iframe{max-width:none;height:calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}}@media(max-width:767px){iframe{max-width:none;height:100vh}}</style>
 </head>
 <body>
 <iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="岗位面试系统原型" srcdoc="&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
 &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
@@ -24,34 +24,28 @@
 &lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
 &lt;title&gt;岗位面试系统原型&lt;/title&gt;
 &lt;style&gt;:root {
-  color-scheme: light dark;
+  color-scheme: light;
   background-color: var(--background) !important;
 
   /* Agent-facing contract; keep in sync with SKILL.md. */
-  --background: light-dark(rgb(255 255 255), rgb(24 24 24));
-  --foreground: light-dark(rgb(26 28 31), rgb(255 255 255));
-  --card: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --background: rgb(255 255 255);
+  --foreground: rgb(17 17 17);
+  --card: rgb(255 255 255);
   --card-foreground: var(--foreground);
-  --popover: light-dark(rgb(255 255 255), rgb(45 45 45));
+  --popover: rgb(255 255 255);
   --popover-foreground: var(--foreground);
-  --primary: light-dark(rgb(51 156 255), rgb(131 195 255));
-  --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
-  --secondary: light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%));
+  --primary: rgb(17 17 17);
+  --primary-foreground: rgb(255 255 255);
+  --secondary: rgb(247 247 245);
   --secondary-foreground: var(--foreground);
-  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
-  --muted-foreground: light-dark(
-    rgb(26 28 31 / 49.4%),
-    rgb(255 255 255 / 49.8%)
-  );
-  --accent: light-dark(rgb(229 242 255), rgb(13 39 63));
-  --accent-foreground: var(--primary);
-  --destructive: light-dark(rgb(226 85 7), rgb(255 133 73));
-  --border: light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%));
-  --input: light-dark(
-    rgb(26 28 31 / 11.8%),
-    color-mix(in oklab, rgb(0 0 0) 10%, transparent)
-  );
-  --ring: light-dark(rgb(51 156 255), rgb(131 195 255 / 76%));
+  --muted: rgb(246 246 244);
+  --muted-foreground: rgb(103 103 103);
+  --accent: rgb(244 244 242);
+  --accent-foreground: rgb(17 17 17);
+  --destructive: rgb(180 35 24);
+  --border: rgb(222 222 218);
+  --input: rgb(205 205 200);
+  --ring: rgb(17 17 17);
   --font-size-base: 14px;
   --viz-series-1: var(--primary);
   --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
@@ -106,7 +100,7 @@
 }
 
 :root[data-theme=&quot;dark&quot;] {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -756,41 +750,48 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;body&gt;
 &lt;div id=&quot;interview-model-prototype&quot; class=&quot;prototype&quot;&gt;
   &lt;style&gt;
-    #interview-model-prototype { color: var(--foreground); font-family: inherit; }
+    #interview-model-prototype { min-height:100vh; color:var(--foreground); background:#fff; font-family:inherit; }
     #interview-model-prototype * { box-sizing: border-box; }
-    #interview-model-prototype .shell { display: grid; gap: 16px; }
-    #interview-model-prototype .topline { display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
-    #interview-model-prototype .eyebrow { color:var(--muted-foreground); font-size:.85em; }
-    #interview-model-prototype .steps { display:flex; flex-wrap:wrap; gap:8px; }
-    #interview-model-prototype .step { border:1px solid var(--border); background:transparent; color:var(--foreground); padding:8px 11px; border-radius:7px; cursor:pointer; }
-    #interview-model-prototype .step.active { background:var(--primary); color:var(--primary-foreground); border-color:var(--primary); }
-    #interview-model-prototype .pane { display:none; gap:16px; }
+    #interview-model-prototype .shell { display:grid; gap:24px; width:min(100%,1320px); margin:0 auto; padding:28px 32px 48px; }
+    #interview-model-prototype .topline { display:flex; justify-content:space-between; gap:18px; align-items:center; flex-wrap:wrap; }
+    #interview-model-prototype .shell &gt; .topline { padding-bottom:22px; border-bottom:1px solid var(--border); }
+    #interview-model-prototype .shell &gt; .topline strong { display:block; margin-top:4px; font-size:1.45em; letter-spacing:-.02em; }
+    #interview-model-prototype .eyebrow { color:var(--muted-foreground); font-size:.82em; letter-spacing:.02em; }
+    #interview-model-prototype .steps { display:flex; flex-wrap:wrap; gap:4px; padding:4px; border:1px solid var(--border); border-radius:10px; background:var(--secondary); }
+    #interview-model-prototype .step { border:0; background:transparent; color:var(--muted-foreground); padding:9px 13px; border-radius:7px; cursor:pointer; font-weight:500; }
+    #interview-model-prototype .step:hover { color:var(--foreground); background:#fff; }
+    #interview-model-prototype .step.active { background:var(--primary); color:var(--primary-foreground); border-color:var(--primary); box-shadow:0 1px 2px rgb(0 0 0 / 14%); }
+    #interview-model-prototype .pane { display:none; gap:18px; }
     #interview-model-prototype .pane.active { display:grid; }
-    #interview-model-prototype .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    #interview-model-prototype .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
     #interview-model-prototype .grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
-    #interview-model-prototype .stack { display:grid; gap:10px; }
-    #interview-model-prototype .card { border:1px solid var(--border); background:var(--card); color:var(--card-foreground); border-radius:10px; padding:16px; }
-    #interview-model-prototype .card h2, #interview-model-prototype .card h3 { margin:0 0 8px; font-size:1em; font-weight:500; }
-    #interview-model-prototype .label { display:grid; gap:5px; font-size:.9em; }
-    #interview-model-prototype input, #interview-model-prototype select, #interview-model-prototype textarea { width:100%; color:var(--foreground); background:var(--background); border:1px solid var(--input); border-radius:6px; padding:8px; font:inherit; }
-    #interview-model-prototype textarea { min-height:78px; resize:vertical; }
-    #interview-model-prototype .actions { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-    #interview-model-prototype button { border:1px solid var(--border); color:var(--foreground); background:transparent; padding:8px 11px; border-radius:7px; cursor:pointer; font:inherit; }
+    #interview-model-prototype .stack { display:grid; gap:15px; }
+    #interview-model-prototype .card { border:1px solid var(--border); background:var(--card); color:var(--card-foreground); border-radius:12px; padding:22px; box-shadow:0 1px 2px rgb(0 0 0 / 3%); }
+    #interview-model-prototype .card h2, #interview-model-prototype .card h3 { margin:0 0 4px; font-size:1.05em; font-weight:650; letter-spacing:-.01em; }
+    #interview-model-prototype .label { display:grid; gap:7px; color:#333; font-size:.9em; font-weight:550; }
+    #interview-model-prototype input, #interview-model-prototype select, #interview-model-prototype textarea { width:100%; color:var(--foreground); background:#fff; border:1px solid var(--input); border-radius:8px; padding:10px 11px; font:inherit; font-weight:430; transition:border-color 150ms,box-shadow 150ms; }
+    #interview-model-prototype input:hover, #interview-model-prototype select:hover, #interview-model-prototype textarea:hover { border-color:#999; }
+    #interview-model-prototype textarea { min-height:92px; resize:vertical; line-height:1.6; }
+    #interview-model-prototype .actions { display:flex; gap:9px; flex-wrap:wrap; align-items:center; }
+    #interview-model-prototype button { border:1px solid var(--input); color:var(--foreground); background:#fff; padding:9px 13px; border-radius:8px; cursor:pointer; font:inherit; font-weight:550; transition:background 150ms,border-color 150ms,transform 150ms; }
+    #interview-model-prototype button:hover { border-color:#777; background:var(--secondary); }
+    #interview-model-prototype button:active { transform:translateY(1px); }
     #interview-model-prototype button.primary { background:var(--primary); color:var(--primary-foreground); border-color:var(--primary); }
+    #interview-model-prototype button.primary:hover { background:#333; border-color:#333; }
     #interview-model-prototype button:focus-visible, #interview-model-prototype input:focus-visible, #interview-model-prototype textarea:focus-visible, #interview-model-prototype select:focus-visible { outline:2px solid var(--ring); outline-offset:2px; }
     #interview-model-prototype .note { color:var(--muted-foreground); margin:0; font-size:.9em; }
-    #interview-model-prototype .status { padding:9px 11px; background:var(--accent); color:var(--accent-foreground); border-radius:7px; margin:0; }
+    #interview-model-prototype .status { padding:12px 14px; background:var(--accent); color:var(--accent-foreground); border:1px solid var(--border); border-left:3px solid var(--foreground); border-radius:8px; margin:0; }
     #interview-model-prototype .muted { color:var(--muted-foreground); }
-    #interview-model-prototype .tag { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:3px 8px; font-size:.8em; margin:2px 4px 2px 0; }
-    #interview-model-prototype .capability { display:grid; grid-template-columns:1fr 82px 90px; gap:10px; align-items:center; padding:10px 0; border-top:1px solid var(--border); }
+    #interview-model-prototype .tag { display:inline-block; border:1px solid var(--border); background:var(--secondary); border-radius:999px; padding:4px 9px; font-size:.8em; margin:2px 4px 2px 0; }
+    #interview-model-prototype .capability { display:grid; grid-template-columns:1fr 82px 90px; gap:10px; align-items:center; padding:12px 0; border-top:1px solid var(--border); }
     #interview-model-prototype .capability:first-of-type { border-top:0; }
-    #interview-model-prototype .question { padding:12px 0; border-top:1px solid var(--border); }
+    #interview-model-prototype .question { padding:16px 0; border-top:1px solid var(--border); }
     #interview-model-prototype .question:first-of-type { border-top:0; }
     #interview-model-prototype .question p { margin:7px 0; }
-    #interview-model-prototype .decision { border-left:3px solid var(--primary); padding-left:12px; }
-    #interview-model-prototype .score { font-size:1.65em; font-weight:500; margin:4px 0; }
+    #interview-model-prototype .decision { border-left:3px solid var(--primary); padding:3px 0 3px 14px; }
+    #interview-model-prototype .score { font-size:1.9em; font-weight:700; letter-spacing:-.03em; margin:5px 0; }
     #interview-model-prototype .hidden { display:none!important; }
-    @media (max-width:620px) { #interview-model-prototype .grid, #interview-model-prototype .grid.three { grid-template-columns:1fr; } #interview-model-prototype .capability { grid-template-columns:1fr 75px 82px; } }
+    @media (max-width:760px) { #interview-model-prototype .shell { padding:20px 16px 36px; gap:18px; } #interview-model-prototype .shell &gt; .topline { align-items:flex-start; } #interview-model-prototype .steps { width:100%; overflow-x:auto; flex-wrap:nowrap; } #interview-model-prototype .step { flex:0 0 auto; } #interview-model-prototype .grid, #interview-model-prototype .grid.three { grid-template-columns:1fr; } #interview-model-prototype .card { padding:18px; } #interview-model-prototype .capability { grid-template-columns:1fr 75px 82px; } }
   &lt;/style&gt;
 
   &lt;div class=&quot;shell&quot;&gt;
