@@ -15,7 +15,7 @@
 <style>:root{color-scheme:light;background:#fff}html,body{margin:0;min-height:100%;background:#fff}body{box-sizing:border-box;padding:0}iframe{display:block;width:100%;max-width:1440px;height:100vh;margin:0 auto;border:0;background:#fff}.install-button{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:10;display:none;border:1px solid #111;border-radius:10px;padding:12px 17px;background:#111;color:#fff;font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:0 8px 24px rgb(0 0 0 / 14%);cursor:pointer}.install-button.visible{display:block}@media(display-mode:standalone){body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}iframe{max-width:none;height:calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}}@media(max-width:767px){iframe{max-width:none;height:100vh}}</style>
 </head>
 <body>
-<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="岗位面试系统原型" srcdoc="&lt;!doctype html&gt;
+<iframe id="appFrame" sandbox="allow-scripts" referrerpolicy="no-referrer" title="岗位面试系统原型" srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;zh-CN&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -775,7 +775,10 @@ html&gt;body{padding:0}&lt;/style&gt;
     #interview-model-prototype textarea { min-height:92px; resize:vertical; line-height:1.6; }
     #interview-model-prototype .actions { display:flex; gap:9px; flex-wrap:wrap; align-items:center; }
     #interview-model-prototype button { border:1px solid var(--input); color:var(--foreground); background:#fff; padding:9px 13px; border-radius:8px; cursor:pointer; font:inherit; font-weight:550; transition:background 150ms,border-color 150ms,transform 150ms; }
+    #interview-model-prototype .file-button { position:relative; overflow:hidden; display:inline-flex; align-items:center; border:1px solid var(--input); color:var(--foreground); background:#fff; padding:9px 13px; border-radius:8px; cursor:pointer; font:inherit; font-weight:550; transition:background 150ms,border-color 150ms,transform 150ms; }
+    #interview-model-prototype .file-input { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
     #interview-model-prototype button:hover { border-color:#777; background:var(--secondary); }
+    #interview-model-prototype .file-button:hover { border-color:#777; background:var(--secondary); }
     #interview-model-prototype button:active { transform:translateY(1px); }
     #interview-model-prototype button.primary { background:var(--primary); color:var(--primary-foreground); border-color:var(--primary); }
     #interview-model-prototype button.primary:hover { background:#333; border-color:#333; }
@@ -814,10 +817,11 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;div class=&quot;grid&quot;&gt;
         &lt;div class=&quot;card stack&quot;&gt;
           &lt;h2&gt;创建岗位&lt;/h2&gt;
-          &lt;label class=&quot;label&quot;&gt;职位名称&lt;span class=&quot;field-hint&quot;&gt;输入岗位名称，停顿片刻后将自动补全岗位 Brief&lt;/span&gt;&lt;input id=&quot;jobName&quot; value=&quot;亚马逊总监&quot; autocomplete=&quot;off&quot;&gt;&lt;/label&gt;
+          &lt;label class=&quot;label&quot;&gt;职位名称&lt;span class=&quot;field-hint&quot;&gt;输入岗位名称，停顿片刻后将自动补全岗位 Brief&lt;/span&gt;&lt;input id=&quot;jobName&quot; value=&quot;亚马逊总监&quot; autocomplete=&quot;off&quot; list=&quot;jobLibrary&quot;&gt;&lt;datalist id=&quot;jobLibrary&quot;&gt;&lt;/datalist&gt;&lt;/label&gt;
           &lt;label class=&quot;label&quot;&gt;行业 / 业务模式&lt;input id=&quot;industry&quot; value=&quot;跨境服装 B2C · 自有品牌转型&quot;&gt;&lt;/label&gt;
           &lt;label class=&quot;label&quot;&gt;核心职责&lt;textarea id=&quot;responsibility&quot;&gt;对美国为主、兼有欧洲市场的亚马逊业务经营负责；拉通库存、广告与品牌资源，实现营收、利润、增长和组织能力建设。&lt;/textarea&gt;&lt;/label&gt;
-          &lt;div class=&quot;actions&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;generate&quot; type=&quot;button&quot;&gt;生成岗位方案&lt;/button&gt;&lt;button id=&quot;loadSupply&quot; type=&quot;button&quot;&gt;载入供应链总监示例&lt;/button&gt;&lt;/div&gt;
+          &lt;div class=&quot;actions&quot;&gt;&lt;button id=&quot;generate&quot; type=&quot;button&quot;&gt;生成岗位方案&lt;/button&gt;&lt;button class=&quot;primary&quot; id=&quot;saveBrief&quot; type=&quot;button&quot;&gt;保存岗位 Brief&lt;/button&gt;&lt;label class=&quot;file-button&quot; id=&quot;importJobs&quot; for=&quot;jobImportFile&quot; role=&quot;button&quot; tabindex=&quot;0&quot;&gt;批量导入岗位 JD&lt;/label&gt;&lt;button id=&quot;loadSupply&quot; type=&quot;button&quot;&gt;载入供应链总监示例&lt;/button&gt;&lt;/div&gt;
+          &lt;input class=&quot;file-input&quot; id=&quot;jobImportFile&quot; type=&quot;file&quot; accept=&quot;.json,.csv,application/json,text/csv&quot;&gt;
         &lt;/div&gt;
         &lt;div class=&quot;card stack&quot;&gt;
           &lt;h2&gt;补充企业 Brief（可选）&lt;/h2&gt;
@@ -983,13 +987,27 @@ html&gt;body{padding:0}&lt;/style&gt;
           constraints: &#x27;具备可核验的品牌或增长项目成果；数据造假、侵权和重大合规问题为红线。&#x27;
         }
       ];
+      let importedRoleTemplates = [];
       let isSupply = false;
       const el = (s) =&gt; root.querySelector(s);
+      const normalizeImportedJob = (job) =&gt; ({
+        jobName: String(job?.jobName ?? job?.position ?? job?.title ?? &#x27;&#x27;).trim(),
+        label: &#x27;已导入岗位 JD&#x27;,
+        industry: String(job?.industry ?? job?.businessMode ?? &#x27;&#x27;).trim(),
+        responsibility: String(job?.responsibility ?? job?.jd ?? job?.description ?? &#x27;&#x27;).trim(),
+        company: String(job?.company ?? job?.companyStage ?? &#x27;&#x27;).trim(),
+        team: String(job?.team ?? job?.reportTo ?? &#x27;&#x27;).trim(),
+        goals: String(job?.goals ?? job?.keyResults ?? &#x27;&#x27;).trim(),
+        constraints: String(job?.constraints ?? job?.requirements ?? &#x27;&#x27;).trim()
+      });
+      const renderJobLibrary = () =&gt; {
+        el(&#x27;#jobLibrary&#x27;).innerHTML = importedRoleTemplates.map(job =&gt; `&lt;option value=&quot;${job.jobName.replaceAll(&#x27;&amp;&#x27;, &#x27;&amp;amp;&#x27;).replaceAll(&#x27;&quot;&#x27;, &#x27;&amp;quot;&#x27;)}&quot;&gt;&lt;/option&gt;`).join(&#x27;&#x27;);
+      };
       const resolveRoleTemplate = (name) =&gt; {
         const normalized = name.toLowerCase();
+        const imported = importedRoleTemplates.find(job =&gt; job.jobName.toLowerCase() === normalized);
         const matched = roleTemplates.find(template =&gt; template.keywords.some(keyword =&gt; normalized.includes(keyword)));
-        if (matched) return matched;
-        return {
+        const fallback = matched ?? {
           label: &#x27;通用岗位&#x27;,
           industry: &#x27;企业经营管理 · 专业职能与跨团队协作&#x27;,
           responsibility: `负责${name}相关工作的规划、执行与持续优化；承接业务目标，协调内外部资源，建立工作机制并对关键结果负责。`,
@@ -998,6 +1016,9 @@ html&gt;body{padding:0}&lt;/style&gt;
           goals: `在 12–24 个月内完成${name}核心目标，提升工作质量与效率，并形成可复制的流程和团队能力。`,
           constraints: &#x27;具备与岗位层级匹配的专业经验和结果案例；重大合规、诚信或履历真实性问题为红线。&#x27;
         };
+        if (!imported) return fallback;
+        const importedValues = Object.fromEntries(Object.entries(imported).filter(([key, value]) =&gt; key === &#x27;jobName&#x27; || (key !== &#x27;label&#x27; &amp;&amp; value)));
+        return { ...fallback, ...importedValues, label: &#x27;已导入岗位 JD&#x27; };
       };
       const applyBriefTemplate = (name, announce = true) =&gt; {
         const template = resolveRoleTemplate(name);
@@ -1012,7 +1033,52 @@ html&gt;body{padding:0}&lt;/style&gt;
         if (announce) el(&#x27;#generateStatus&#x27;).textContent = `已根据“${name}”自动生成${template.label} Brief，可继续人工修改。`;
         return template;
       };
+      const briefFieldIds = [&#x27;jobName&#x27;, &#x27;industry&#x27;, &#x27;responsibility&#x27;, &#x27;company&#x27;, &#x27;team&#x27;, &#x27;goals&#x27;, &#x27;constraints&#x27;];
+      const collectBrief = () =&gt; Object.fromEntries(briefFieldIds.map(id =&gt; [id, el(&#x27;#&#x27; + id).value]));
+      const restoreBrief = (data) =&gt; {
+        if (!data || typeof data !== &#x27;object&#x27;) return;
+        briefFieldIds.forEach(id =&gt; {
+          if (typeof data[id] === &#x27;string&#x27;) el(&#x27;#&#x27; + id).value = data[id];
+        });
+        const name = el(&#x27;#jobName&#x27;).value.trim();
+        if (name) el(&#x27;#roleTitle&#x27;).textContent = name;
+        el(&#x27;#generateStatus&#x27;).textContent = &#x27;已恢复上次保存的岗位 Brief，可继续修改。&#x27;;
+      };
       let autoGenerateTimer;
+      const parseCsv = (text) =&gt; {
+        const rows = [];
+        let row = [];
+        let field = &#x27;&#x27;;
+        let quoted = false;
+        for (let index = 0; index &lt; text.length; index += 1) {
+          const char = text[index];
+          if (char === &#x27;&quot;&#x27;) {
+            if (quoted &amp;&amp; text[index + 1] === &#x27;&quot;&#x27;) { field += &#x27;&quot;&#x27;; index += 1; }
+            else quoted = !quoted;
+          } else if (char === &#x27;,&#x27; &amp;&amp; !quoted) {
+            row.push(field.trim()); field = &#x27;&#x27;;
+          } else if ((char === &#x27;\n&#x27; || char === &#x27;\r&#x27;) &amp;&amp; !quoted) {
+            if (char === &#x27;\r&#x27; &amp;&amp; text[index + 1] === &#x27;\n&#x27;) index += 1;
+            row.push(field.trim());
+            if (row.some(Boolean)) rows.push(row);
+            row = []; field = &#x27;&#x27;;
+          } else {
+            field += char;
+          }
+        }
+        row.push(field.trim());
+        if (row.some(Boolean)) rows.push(row);
+        if (rows.length &lt; 2) return [];
+        const headers = rows[0].map(header =&gt; header.replace(/^\uFEFF/, &#x27;&#x27;).trim());
+        return rows.slice(1).map(values =&gt; Object.fromEntries(headers.map((header, index) =&gt; [header, values[index] ?? &#x27;&#x27;])));
+      };
+      const parseJobFile = async (file) =&gt; {
+        const text = await file.text();
+        const parsed = file.name.toLowerCase().endsWith(&#x27;.csv&#x27;) ? parseCsv(text) : JSON.parse(text);
+        const jobs = Array.isArray(parsed) ? parsed : parsed?.jobs;
+        if (!Array.isArray(jobs)) throw new Error(&#x27;文件内容必须是岗位数组&#x27;);
+        return jobs.map(normalizeImportedJob).filter(job =&gt; job.jobName);
+      };
       const renderCapabilities = () =&gt; {
         const list = isSupply ? supply : amazon;
         el(&#x27;#capabilities&#x27;).innerHTML = list.map((x, i) =&gt; `&lt;div class=&quot;capability&quot;&gt;&lt;label class=&quot;label&quot;&gt;&lt;input value=&quot;${x[0]}&quot; aria-label=&quot;能力项 ${i + 1}&quot;&gt;&lt;/label&gt;&lt;label class=&quot;label&quot;&gt;&lt;input class=&quot;weight&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;${x[1]}&quot; aria-label=&quot;${x[0]}权重&quot;&gt;%&lt;/label&gt;&lt;label class=&quot;label&quot;&gt;&lt;select aria-label=&quot;${x[0]}是否必过&quot;&gt;&lt;option ${x[2] ? &#x27;selected&#x27; : &#x27;&#x27;}&gt;必过项&lt;/option&gt;&lt;option ${x[2] ? &#x27;&#x27; : &#x27;selected&#x27;}&gt;普通项&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;`).join(&#x27;&#x27;);
@@ -1049,12 +1115,45 @@ html&gt;body{padding:0}&lt;/style&gt;
         }, 500);
       });
       el(&#x27;#generate&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const name = el(&#x27;#jobName&#x27;).value.trim() || &#x27;未命名岗位&#x27;; applyBriefTemplate(name); renderCapabilities(); renderQuestions(&#x27;hrvp&#x27;); });
+      el(&#x27;#saveBrief&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; {
+        el(&#x27;#generateStatus&#x27;).textContent = &#x27;正在保存岗位 Brief…&#x27;;
+        window.parent.postMessage({ type: &#x27;save-brief&#x27;, data: collectBrief() }, &#x27;*&#x27;);
+      });
+      el(&#x27;#importJobs&#x27;).addEventListener(&#x27;keydown&#x27;, (event) =&gt; {
+        if (event.key === &#x27;Enter&#x27; || event.key === &#x27; &#x27;) { event.preventDefault(); el(&#x27;#jobImportFile&#x27;).click(); }
+      });
+      el(&#x27;#jobImportFile&#x27;).addEventListener(&#x27;change&#x27;, async (event) =&gt; {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        el(&#x27;#generateStatus&#x27;).textContent = `正在导入 ${file.name}…`;
+        try {
+          const jobs = await parseJobFile(file);
+          if (!jobs.length) throw new Error(&#x27;没有找到有效岗位&#x27;);
+          window.parent.postMessage({ type: &#x27;import-jobs&#x27;, data: jobs }, &#x27;*&#x27;);
+        } catch (error) {
+          el(&#x27;#generateStatus&#x27;).textContent = `导入失败：${error.message}`;
+        } finally {
+          event.target.value = &#x27;&#x27;;
+        }
+      });
       el(&#x27;#loadSupply&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const name = &#x27;跨境服装供应链总监&#x27;; el(&#x27;#jobName&#x27;).value = name; applyBriefTemplate(name); renderCapabilities(); });
       el(&#x27;#regenerateModel&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { renderCapabilities(); el(&#x27;#weightTotal&#x27;).textContent = &#x27;模型已按最新岗位 Brief 更新；已锁定的人工内容将保留。&#x27;; });
       el(&#x27;#saveTemplate&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { el(&#x27;#weightTotal&#x27;).textContent = &#x27;已保存为企业岗位模板（演示）。&#x27;; });
       el(&#x27;#regenerateQuestions&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const active = root.querySelector(&#x27;.round.active&#x27;).dataset.round; renderQuestions(active); });
       el(&#x27;#submitHrvp&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const evidence = el(&#x27;#evidence&#x27;).value.trim(); if (!evidence) { el(&#x27;#evaluationStatus&#x27;).textContent = &#x27;请先补充事实证据，再提交评价。&#x27;; return; } el(&#x27;#evaluationStatus&#x27;).textContent = &#x27;HRVP 评价已提交并锁定（演示）。&#x27;; el(&#x27;#hrvpConclusion&#x27;).textContent = el(&#x27;#hrvpResult&#x27;).value; el(&#x27;#decisionEvidence&#x27;).textContent = evidence; const inputs = [...root.querySelectorAll(&#x27;.scoreInput&#x27;)]; const score = Math.round(inputs.reduce((s, x) =&gt; s + (+x.value) * (+x.dataset.weight), 0) / inputs.reduce((s, x) =&gt; s + (+x.dataset.weight), 0) * 20); el(&#x27;#totalScore&#x27;).textContent = score; el(&#x27;#mustPass&#x27;).textContent = +inputs[0].value &gt;= 3 ? &#x27;通过&#x27; : &#x27;未通过&#x27;; });
       el(&#x27;#confirmDecision&#x27;).addEventListener(&#x27;click&#x27;, () =&gt; { const d = el(&#x27;#bossDecision&#x27;).value; const reason = el(&#x27;#decisionReason&#x27;).value.trim(); if (d === &#x27;例外录用&#x27; &amp;&amp; !reason) { el(&#x27;#decisionStatus&#x27;).textContent = &#x27;例外录用必须填写例外理由、已知风险和入职后动作。&#x27;; return; } el(&#x27;#decisionStatus&#x27;).textContent = `已记录老板决策：${d}（演示）。`; });
+      window.addEventListener(&#x27;message&#x27;, (event) =&gt; {
+        if (event.source !== window.parent || !event.data || typeof event.data !== &#x27;object&#x27;) return;
+        if (event.data.type === &#x27;restore-brief&#x27;) restoreBrief(event.data.data);
+        if (event.data.type === &#x27;restore-job-library&#x27; || event.data.type === &#x27;jobs-imported&#x27;) {
+          importedRoleTemplates = Array.isArray(event.data.data) ? event.data.data.map(normalizeImportedJob).filter(job =&gt; job.jobName) : [];
+          renderJobLibrary();
+          if (event.data.type === &#x27;jobs-imported&#x27;) el(&#x27;#generateStatus&#x27;).textContent = `已导入 ${importedRoleTemplates.length} 个岗位 JD，可在职位名称中选择或输入。`;
+        }
+        if (event.data.type === &#x27;brief-saved&#x27;) el(&#x27;#generateStatus&#x27;).textContent = &#x27;岗位 Brief 已保存到当前设备。&#x27;;
+        if (event.data.type === &#x27;brief-save-failed&#x27;) el(&#x27;#generateStatus&#x27;).textContent = &#x27;保存失败，请检查浏览器是否允许本地存储。&#x27;;
+        if (event.data.type === &#x27;jobs-import-failed&#x27;) el(&#x27;#generateStatus&#x27;).textContent = &#x27;岗位 JD 导入失败，请检查文件格式。&#x27;;
+      });
       renderCapabilities(); renderQuestions(&#x27;hrvp&#x27;);
     })();
   &lt;/script&gt;
@@ -1304,6 +1403,91 @@ html&gt;body{padding:0}&lt;/style&gt;
 "></iframe>
 <button class="install-button" id="installApp" type="button">安装到设备</button>
 <script>
+  const appFrame = document.getElementById("appFrame");
+  const briefStorageKey = "interview-brief-draft-v1";
+  const jobLibraryKey = "interview-job-library-v1";
+  const briefFieldIds = ["jobName", "industry", "responsibility", "company", "team", "goals", "constraints"];
+  const jobAliases = {
+    jobName: ["jobName", "position", "title"],
+    industry: ["industry", "businessMode"],
+    responsibility: ["responsibility", "jd", "description"],
+    company: ["company", "companyStage"],
+    team: ["team", "reportTo"],
+    goals: ["goals", "keyResults"],
+    constraints: ["constraints", "requirements"],
+  };
+
+  const normalizeJob = (job = {}) => Object.fromEntries(
+    Object.entries(jobAliases).map(([target, aliases]) => {
+      const value = aliases.map((key) => job[key]).find((candidate) => typeof candidate === "string") ?? "";
+      return [target, value.trim().slice(0, 20000)];
+    }),
+  );
+
+  const readJobLibrary = () => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(jobLibraryKey) || "[]");
+      return Array.isArray(parsed) ? parsed.map(normalizeJob).filter((job) => job.jobName) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const importJobs = (jobs) => {
+    if (!Array.isArray(jobs)) throw new TypeError("jobs must be an array");
+    const incoming = jobs.map(normalizeJob).filter((job) => job.jobName);
+    const merged = new Map(readJobLibrary().map((job) => [job.jobName.toLowerCase(), job]));
+    incoming.forEach((job) => merged.set(job.jobName.toLowerCase(), job));
+    const library = [...merged.values()];
+    localStorage.setItem(jobLibraryKey, JSON.stringify(library));
+    appFrame.contentWindow?.postMessage({ type: "jobs-imported", data: library }, "*");
+    window.dispatchEvent(new CustomEvent("interviewbrief:jobs-imported", { detail: { imported: incoming.length, total: library.length } }));
+    return { imported: incoming.length, total: library.length };
+  };
+
+  window.InterviewBriefAPI = Object.freeze({
+    version: "1.0",
+    importJobs,
+    getJobs: () => readJobLibrary(),
+    getSavedBrief: () => {
+      try { return JSON.parse(localStorage.getItem(briefStorageKey) || "null")?.data ?? null; }
+      catch { return null; }
+    },
+  });
+
+  const sendStoredData = () => {
+    try {
+      const saved = localStorage.getItem(briefStorageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        appFrame.contentWindow?.postMessage({ type: "restore-brief", data: parsed.data }, "*");
+      }
+    } catch {
+      localStorage.removeItem(briefStorageKey);
+    }
+    appFrame.contentWindow?.postMessage({ type: "restore-job-library", data: readJobLibrary() }, "*");
+  };
+
+  appFrame.addEventListener("load", sendStoredData);
+  window.addEventListener("message", (event) => {
+    if (event.source !== appFrame.contentWindow || !event.data || typeof event.data !== "object") return;
+    if (event.data.type === "save-brief") {
+      const safeData = Object.fromEntries(
+        briefFieldIds.map((id) => [id, typeof event.data.data?.[id] === "string" ? event.data.data[id].slice(0, 20000) : ""]),
+      );
+      try {
+        localStorage.setItem(briefStorageKey, JSON.stringify({ data: safeData, savedAt: Date.now() }));
+        appFrame.contentWindow?.postMessage({ type: "brief-saved" }, "*");
+      } catch {
+        appFrame.contentWindow?.postMessage({ type: "brief-save-failed" }, "*");
+      }
+    }
+    if (event.data.type === "import-jobs") {
+      try { importJobs(event.data.data); }
+      catch { appFrame.contentWindow?.postMessage({ type: "jobs-import-failed" }, "*"); }
+    }
+  });
+
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
   }
